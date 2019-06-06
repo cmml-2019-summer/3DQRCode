@@ -16,8 +16,10 @@ if strcmp(FalseQR,'ONLYONE') %check to see if there are one or two qr codes
 else
     [ARRAY]=doubleEmbeddedCode_(CorrectQR,FalseQR);
 end
+
+    [ARRAY]=FOGgenerator_(ARRAY);
     
-stlfilename = strcat('QRstl-',CorrectQR(1:end-4),'-',FalseQR(1:end-4),'.stl'); %create a unique filename / (1:end-4) removes the .png or .jpg from the strings
-fv = isosurface(~ ARRAY, 0); 
-stlwrite(stlfilename,fv) %downloaded function which triangulates the data
+%stlfilename = strcat('QRstl-',CorrectQR(1:end-4),'-',FalseQR(1:end-4),'.stl'); %create a unique filename / (1:end-4) removes the .png or .jpg from the strings
+%fv = isosurface(~ ARRAY, 0); 
+%stlwrite(stlfilename,fv) %downloaded function which triangulates the data
 %stlwrite should display "Wrote 3 faces" in the command line
