@@ -32,12 +32,12 @@ m = m(:,1);
 figure
 hold on
 for i = 1:m
-    fv(i) = patch(surf2patch(rad*sx + x(i),rad*sy + y(i),rad*sz + z(i), 'triangles'), 'EdgeColor', 'none', 'FaceColor', 'black');
+    fvcpatch(surf2patch(rad*sx + x(i),rad*sy + y(i),rad*sz + z(i)));
     %surfObj = surf(rad*sx + x(i),rad*sy + y(i),rad*sz + z(i), 'EdgeColor', 'none', 'FaceColor', 'black');
 end
 
 
 
 % fv = isosurface(~ ARRAY, 0); 
-%stlwrite(stlfilename,fv) %downloaded function which triangulates the data
+% stlwrite(stlfilename,fv) %downloaded function which triangulates the data
 %stlwrite should display "Wrote 3 faces" in the command line
