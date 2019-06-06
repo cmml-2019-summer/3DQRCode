@@ -1,4 +1,4 @@
-function [ARRAY] = singleEmbeddedCode_(filename)
+function [ARRAY, allDetectedOrigins] = singleEmbeddedCode_(filename)
 count=0;
 
 [QRMTX,IdxVec,QSdim] = IdxSpacer_(filename);
@@ -15,18 +15,22 @@ Zrange = cumVec(QSdim+1:end-QSdim-1); % the positions in which cell cubes can be
 posVec = cumsum(IdxVec);% the pixel position of the near the top/left corner most point on each cell 
 
 col = 1; row = 1;
+allDetectedOrigins = [];
+validZPos = [];
 
 while row <= numberofcols % going through all rows checking for cells
     
     while col <= numberofcols % going through all columns checking for cells
         
         if QRMTX(posVec(row),posVec(col)) % if this logical is true then a cell is detected at that row/col
-            
+            allDetectedOrigins = [allDetectedOrigins ; posVec(row)+posVec(1)/2 posVec(col)+posVec(1)/2];
             if row > 1 % the first row is always empty (Quiet Space)
                 
                 zPos = assignZpos_(ZPOSMTX,IdxVec,Zrange,row,col); % randomly selects z coordinate of the given cell // assignelev checks for corner/edge/face inteferance
                 ZPOSMTX(row,col) = zPos; %zPos is saved inside ZPOSMTX
-                
+                if isfinite(zPos)
+                    validZPos = [validZPos ; zPos];
+                end
             end
             %these next lines select the coordanites in ARRAY
             Zcoordinates = zPos:zPos + cellsize ; % these coordiantes include compatiable zPos and the cell length number of coordanites above it 
@@ -44,6 +48,6 @@ while row <= numberofcols % going through all rows checking for cells
     row = row + 1;% next row
     
 end
-size(ARRAY)
+allDetectedOrigins = [allDetectedOrigins validZPos];
 end
 %maxzpos = m - max(IdxVec) - 2*QSdim*min(IdxVec); % this can be used to 

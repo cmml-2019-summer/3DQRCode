@@ -8,16 +8,34 @@
 % qr generator
 
 clear; clc;
-CorrectQR = 'QR code.png'; %input('Please input the filename of the Correct QR code =>','s');
+CorrectQR = 'Correct QR.png'; %input('Please input the filename of the Correct QR code =>','s');
 FalseQR = 'ONLYONE'; %input('Now input the filename of the False QR code =>','s');
 
 if strcmp(FalseQR,'ONLYONE') %check to see if there are one or two qr codes
-    [ARRAY]=singleEmbeddedCode_(CorrectQR);
+    [ARRAY, allDetectedOrigins]=singleEmbeddedCode_(CorrectQR);
 else
     [ARRAY]=doubleEmbeddedCode_(CorrectQR,FalseQR);
 end
     
 stlfilename = strcat('QRstl-',CorrectQR(1:end-4),'-',FalseQR(1:end-4),'.stl'); %create a unique filename / (1:end-4) removes the .png or .jpg from the strings
-fv = isosurface(~ ARRAY, 0); 
-stlwrite(stlfilename,fv) %downloaded function which triangulates the data
+
+x = allDetectedOrigins(:,1);
+y = allDetectedOrigins(:,2);
+z = allDetectedOrigins(:,3);
+
+rad = 3; 
+res = 15; 
+m = size(allDetectedOrigins);
+m = m(:,1);
+
+[sx,sy,sz] = sphere(res);
+
+figure
+hold on
+for i = 1:m
+    surf(rad*sx + x(i),rad*sy + y(i),rad*sz + z(i), 'EdgeColor', 'none', 'FaceColor', 'black')
+end
+
+% fv = isosurface(~ ARRAY, 0); 
+% stlwrite(stlfilename,fv) %downloaded function which triangulates the data
 %stlwrite should display "Wrote 3 faces" in the command line
