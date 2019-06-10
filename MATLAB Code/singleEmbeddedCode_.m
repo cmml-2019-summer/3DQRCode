@@ -10,11 +10,13 @@ cellsize = IdxVec(1);
 ZPOSMTX = nan(numberofcols,numberofcols); % stores the z coordinate of the bottom of each cell cube in same row/col that the cell cube is stored
 
 cumVec = cumsum(IdxVec); 
+
 if applyfog
     Zrange = cellsize*2:cellsize:792;
 else
-    Zrange = cumVec(QSdim+1:end-QSdim-1) % the positions in which cell cubes can be stored // QSdim is used here so that a square is produced // the -1 from the end accounts for posibility of a cell being placed on the final position
+    Zrange = cumVec(QSdim+1:end-QSdim-1); % the positions in which cell cubes can be stored // QSdim is used here so that a square is produced // the -1 from the end accounts for posibility of a cell being placed on the final position
 end
+
 posVec = cumsum(IdxVec);% the pixel position of the near the top/left corner most point on each cell 
 
 col = 1; row = 1;
