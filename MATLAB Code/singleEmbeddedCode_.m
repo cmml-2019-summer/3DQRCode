@@ -48,6 +48,8 @@ while row <= numberofcols % going through all rows checking for cells
     row = row + 1;% next row
     
 end
+
 allDetectedOrigins = [allDetectedOrigins validZPos];
+
 end
 %maxzpos = m - max(IdxVec) - 2*QSdim*min(IdxVec); % this can be used to 
