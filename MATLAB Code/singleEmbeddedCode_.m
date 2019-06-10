@@ -1,4 +1,4 @@
-function [ARRAY] = singleEmbeddedCode_(filename)
+function [ARRAY,cellsize] = singleEmbeddedCode_(filename,applyfog)
 count=0;
 
 [QRMTX,IdxVec,QSdim] = IdxSpacer_(filename);
@@ -10,8 +10,11 @@ cellsize = IdxVec(1);
 ZPOSMTX = nan(numberofcols,numberofcols); % stores the z coordinate of the bottom of each cell cube in same row/col that the cell cube is stored
 
 cumVec = cumsum(IdxVec); 
-Zrange = cumVec(QSdim+1:end-QSdim-1); % the positions in which cell cubes can be stored // QSdim is used here so that a square is produced // the -1 from the end accounts for posibility of a cell being placed on the final position
-
+if applyfog
+    Zrange = cellsize*2:cellsize:792;
+else
+    Zrange = cumVec(QSdim+1:end-QSdim-1) % the positions in which cell cubes can be stored // QSdim is used here so that a square is produced // the -1 from the end accounts for posibility of a cell being placed on the final position
+end
 posVec = cumsum(IdxVec);% the pixel position of the near the top/left corner most point on each cell 
 
 col = 1; row = 1;
@@ -24,7 +27,7 @@ while row <= numberofcols % going through all rows checking for cells
             
             if row > 1 % the first row is always empty (Quiet Space)
                 
-                zPos = assignZpos_(ZPOSMTX,IdxVec,Zrange,row,col); % randomly selects z coordinate of the given cell // assignelev checks for corner/edge/face inteferance
+                zPos = assignZpos_(ZPOSMTX,cellsize,Zrange,row,col); % randomly selects z coordinate of the given cell // assignelev checks for corner/edge/face inteferance
                 ZPOSMTX(row,col) = zPos; %zPos is saved inside ZPOSMTX
                 
             end
