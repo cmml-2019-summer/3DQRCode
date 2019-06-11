@@ -1,55 +1,41 @@
-function [ARRAY]=FOGgenerator_(ARRAY,cellsize,factor)
+function [ARRAY]=FOGgenerator_(ARRAY,cellsize,placement)
+[n0,m0,~]= size(ARRAY);
 
 
-[n0,m0,p0]= size(ARRAY);
+xfcent = placement(1);
+yfcent = placement(2);
+n1=placement(3);
+m1=placement(4);
 
-
-[~,m,p]= size(ARRAY);
-
-offset = sqrt(2)*n0/2;
-n1=n0*factor;
-m1=m0*factor;
-p1=p0*factor;
-radius=n1/2;
-
-XfCentRange = ceil(offset):floor(n1-offset);
-xfcent = randsample(XfCentRange,1);
-xfcent = cellsize*ceil(xfcent/cellsize)-cellsize/2;
-adjustment1 = sqrt((floor(n1-offset))^2-(xfcent-radius)^2);
-
-YfCentRange = (ceil(adjustment1-radius)):(floor(adjustment1));
-yfcent = randsample(YfCentRange,1);
-yfcent = cellsize*ceil(yfcent/cellsize)-cellsize/2;
-adjustment2 = sqrt((floor(n1-offset))^2-(xfcent-radius)^2-(yfcent-radius)^2);
-
-ZfCentRange = (ceil(adjustment2-radius)):(floor(adjustment2));
-zfcent = randsample(ZfCentRange,1);
-zfcent = cellsize*ceil(zfcent/cellsize)-cellsize/2;
-
-
+%First Add%
 xfrightbuff = floor(n1-xfcent-(ceil((n0-1)/2)));
 xfleftbuff = n1-n0-xfrightbuff;
-
-
+[~,m,p]= size(ARRAY);
 NZL=zeros(xfleftbuff,m,p);
 NZR=zeros(xfrightbuff,m,p);
 ARRAY=cat(1,NZL,ARRAY,NZR);
 
-[n,m,p]= size(ARRAY);
-
-
+%Second Add%
 yfrightbuff = floor(m1-yfcent-(ceil((m0-1)/2)));
 yfleftbuff = m1-m0-yfrightbuff;
-
+[n,~,p]= size(ARRAY);
 MZL=zeros(n,yfleftbuff,p);
 MZR=zeros(n,yfrightbuff,p);
-
 ARRAY=cat(2,MZL,ARRAY,MZR);
 
+%Third Add%
+% zfrightbuff = floor(m1-zfcent-(ceil((p0-1)/2)));
+% zfleftbuff = m1-p0-zfrightbuff;
+% [n,m,~]= size(ARRAY);
+% PZL=zeros(n,m,zfleftbuff);
+% PZR=zeros(n,m,zfrightbuff);
+% ARRAY=cat(3,PZL,ARRAY,PZR);
+
+%SetUpZFPosArray%
 [z1,z2,z3]=size(ARRAY);
 ZFPOSARRAY=zeros(z1/cellsize,z2/cellsize,z3/cellsize);
 
-%________________Generate fog
+%________________Generate fog______________%
 
 
 density=0.5;
@@ -70,7 +56,7 @@ while fogrow<length(allrow)-1
     numberofextracubes = abs(ceil(density*(max(bounds) - min(bounds)))/cellsize); %add standard dev and av
     exclusionzone=[];
     if rowvariable
-        exclusionzone=cellsize*ceil((yfcent-n0/2-2*cellsize:cellsize:yfcent+n0/2-cellsize)/cellsize);
+        exclusionzone=cellsize*ceil((yfcent-n0/2+cellsize*2:cellsize:yfcent+n0/2-cellsize)/cellsize);
     end
     for i=1:numberofextracubes
         idx = ceil(length(range)*rand(1));
@@ -98,15 +84,11 @@ while fogrow<length(allrow)-1
         zPos = assignZpos_(ZFPOSARRAY,cellsize,ZposSlots,fogrow,(selectedcell/cellsize));
         ZFPOSARRAY(fogrow,selectedcell/cellsize) = zPos;
         
-        
         Zcoordinates = zPos:zPos+cellsize ; % these coordiantes include compatiable zPos and the cell length number of coordanites above it
         Rowcoordinates = allrow(fogrow):allrow(fogrow+1) ; % these coordinates include the row positon and the cell length number ...
         Colcoordinates = selectedcell:selectedcell+cellsize ;
         ARRAY(Rowcoordinates,Colcoordinates,Zcoordinates) = 1; % the cube of coordiantes are "placed" inside the ARRAY
-        
     end
-    
     generatorposvec=[];
     fogrow=fogrow+1;
 end
-
