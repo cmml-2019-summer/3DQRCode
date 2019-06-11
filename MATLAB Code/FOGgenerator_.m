@@ -1,4 +1,4 @@
-function [ARRAY]=FOGgenerator_(ARRAY,cellsize,placement)
+function [ARRAY,allDetectedOrigins]=FOGgenerator_(ARRAY,cellsize,placement,allDetectedOrigins)
 [n0,m0,~]= size(ARRAY);
 
 
@@ -90,6 +90,7 @@ while fogrow<length(allrow)-1
         zPos = assignZpos_(ZFPOSARRAY,cellsize,ZposSlots,fogrow,(selectedcell/cellsize));
         ZFPOSARRAY(fogrow,selectedcell/cellsize) = zPos;
         
+        allDetectedOrigins = [allDetectedOrigins ; allrow(fogrow)+cellsize/2 selectedcell+cellsize/2 zPos+cellsize/2];
         Zcoordinates = zPos:zPos+cellsize ; % these coordiantes include compatiable zPos and the cell length number of coordanites above it
         Rowcoordinates = allrow(fogrow):allrow(fogrow+1) ; % these coordinates include the row positon and the cell length number ...
         Colcoordinates = selectedcell:selectedcell+cellsize ;

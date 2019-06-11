@@ -31,14 +31,12 @@ else
     [ARRAY]=doubleEmbeddedCode_(CorrectQR,FalseQR);
 end
 
-    [ARRAY,allDetectedOrigins]=FOGgenerator_(ARRAY,cellsize,placement,allDetectedOrigins);
+    [ARRAY,allDetectedOrigins ]=FOGgenerator_(ARRAY,cellsize,placement);
     disp('done')
-    
-    [faces, vertices]=cube_to_sphere(allDetectedOrigins);
-    disp('done')
+[faces, vertices]=cube_to_sphere(allDetectedOrigins);
     
 stlfilename = strcat('QRstl-',CorrectQR(1:end-4),'-',FalseQR(1:end-4),'.stl'); %create a unique filename / (1:end-4) removes the .png or .jpg from the strings
-
+%fv = isosurface(~ ARRAY, 0); 
 stlwrite(stlfilename,faces,vertices); %downloaded function which triangulates the data
 
 %stlwrite should display "Wrote 3 faces" in the command line
