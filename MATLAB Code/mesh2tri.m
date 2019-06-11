@@ -7,7 +7,7 @@ function [F,V]=mesh2tri(X,Y,Z,tri_type)
 % 15/07/2010
 %------------------------------------------------------------------------
 
-[J,I]=meshgrid(1:1:size(X,2)-1,1:1:size(X,1)-1)
+[J,I]=meshgrid(1:1:size(X,2)-1,1:1:size(X,1)-1);
 
 switch tri_type
     case 'f'%Forward slash

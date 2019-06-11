@@ -2,6 +2,7 @@ function [ARRAY]=FOGgenerator_(ARRAY,cellsize,placement)
 [n0,m0,~]= size(ARRAY);
 
 
+
 xfcent = placement(1);
 yfcent = placement(2);
 n1=placement(3);
@@ -23,6 +24,7 @@ MZL=zeros(n,yfleftbuff,p);
 MZR=zeros(n,yfrightbuff,p);
 ARRAY=cat(2,MZL,ARRAY,MZR);
 
+
 %Third Add%
 % zfrightbuff = floor(m1-zfcent-(ceil((p0-1)/2)));
 % zfleftbuff = m1-p0-zfrightbuff;
@@ -38,6 +40,7 @@ ZFPOSARRAY=zeros(z1/cellsize,z2/cellsize,z3/cellsize);
 %________________Generate fog______________%
 
 
+
 density=0.5;
 allrow=cellsize:cellsize:n1;
 fogrow=2;
@@ -45,22 +48,25 @@ fogrow=2;
 while fogrow<length(allrow)-1
     rowvariable=false;
     if sum(ismember(allrow(fogrow),(cellsize*ceil((xfcent-(n0/2-2*cellsize):cellsize:xfcent+(n0/2-cellsize))/cellsize))))
+
         rowvariable=true;
     end
     
     layerbound = [1 -n1 (allrow(fogrow)-n1/2)^2];
     bounds=roots(layerbound);
-    
+
     range = min(bounds):cellsize:max(bounds);
     range=cellsize*ceil(range/cellsize);
     numberofextracubes = abs(ceil(density*(max(bounds) - min(bounds)))/cellsize); %add standard dev and av
     exclusionzone=[];
     if rowvariable
         exclusionzone=cellsize*ceil((yfcent-n0/2+cellsize*2:cellsize:yfcent+n0/2-cellsize)/cellsize);
+
     end
     for i=1:numberofextracubes
         idx = ceil(length(range)*rand(1));
         generatorposvec(i) = range(idx);
+
     end
     
     generatorposvec = sort(generatorposvec);
@@ -92,3 +98,4 @@ while fogrow<length(allrow)-1
     generatorposvec=[];
     fogrow=fogrow+1;
 end
+
