@@ -8,6 +8,7 @@
 % qr generator
 
 clear; clc;
+factor=0; applyfog=false;
 CorrectQR = 'QR code.png'; %input('Please input the filename of the Correct QR code =>','s');
 FalseQR = 'ONLYONE'; %input('Now input the filename of the False QR code =>','s');
 
@@ -18,17 +19,15 @@ if strcmp(str,'Y')
     applyfog=true;
     str1 = 4;%input('Fog Size 2 3 4 5: ');
     factor = str1;
-else
-    applyfog=false;
 end
 
 if strcmp(FalseQR,'ONLYONE') %check to see if there are one or two qr codes
-    [ARRAY,cellsize]=singleEmbeddedCode_(CorrectQR,applyfog);
+    [ARRAY,placement,cellsize]=singleEmbeddedCode_(CorrectQR,factor);
 else
     [ARRAY]=doubleEmbeddedCode_(CorrectQR,FalseQR);
 end
 
-    [ARRAY]=FOGgenerator_(ARRAY,cellsize,factor);
+    [ARRAY]=FOGgenerator_(ARRAY,cellsize,placement);
     disp('done')
     
     

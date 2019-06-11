@@ -2,10 +2,10 @@ function [ARRAY,placement,cellsize] = singleEmbeddedCode_(filename,factor)
 count=0;
 
 [QRMTX,IdxVec,QSdim] = IdxSpacer_(filename);
-[placement] = CodePlacement_(filename,IdxVec,factor);
+[placement,ZfCentRange] = CodePlacement_(filename,IdxVec,factor);
 
 [m,~] = size(QRMTX);
-ARRAY = zeros(m,m,placement(3)); % ARRAY's size is based on the pixel dimension of the qr image]
+ARRAY = zeros(m,m,placement(4)); % ARRAY's size is based on the pixel dimension of the qr image]
 numberofcols = length(IdxVec); % refeeres to the number of columns and rows in qr code
 cellsize = IdxVec(1);
 ZPOSMTX = nan(numberofcols,numberofcols); % stores the z coordinate of the bottom of each cell cube in same row/col that the cell cube is stored
