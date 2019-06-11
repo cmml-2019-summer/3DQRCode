@@ -66,5 +66,6 @@ end
 allDetectedOrigins = [allDetectedOrigins validZPos];
 allDetectedOrigins(:,1) = allDetectedOrigins(:,1)+placement(1)-m/2;
 allDetectedOrigins(:,2) = allDetectedOrigins(:,2)+placement(2)-m/2;
+allDetectedOrigins(:,3) = allDetectedOrigins(:,3)-cellsize/2;
 end
 %maxzpos = m - max(IdxVec) - 2*QSdim*min(IdxVec); % this can be used to
