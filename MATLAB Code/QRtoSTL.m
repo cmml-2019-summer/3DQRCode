@@ -19,7 +19,7 @@ str = 'Y'%input('Add a Fog? Y/N: ','s');
 
 if strcmp(str,'Y')
     applyfog=true;
-    str1 = 2%input('Fog Size? 2 - 3 - 4 - 5: ');
+    str1 = 4%input('Fog Size? 2 - 3 - 4 - 5: ');
     factor = str1;
 end
 
@@ -50,9 +50,8 @@ if strcmp(str2,'Y')
     stlwrite(stlfilename,faces,vertices);%downloaded function which triangulates the data
 else
     disp('Generating STL...')
-    fv = isosurface(~ ARRAY, 0);
     stlfilename = strcat('QRstl-',CorrectQR(1:end-4),'-',FalseQR(1:end-4),'.stl');
-    stlwrite(stlfilename,fv)
+    stlwrite(stlfilename,faces,vertices)
 end%downloaded function which triangulates the data
 
 %stlwrite should display "Wrote 3 faces" in the command line
