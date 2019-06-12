@@ -45,9 +45,9 @@ density=0.5;
 allrow=cellsize:cellsize:n1;
 fogrow=2;
 
-while fogrow<length(allrow)
+while fogrow<length(allrow)-1
     rowvariable=false;
-    if sum(ismember(allrow(fogrow),(cellsize*ceil((xfcent-n0/2+2*cellsize+placement(5):cellsize:xfcent+n0/2-cellsize-placement(5))/cellsize))))
+    if sum(ismember(allrow(fogrow),(cellsize*ceil((xfcent-(n0/2-2*cellsize-placement(5)):cellsize:xfcent+(n0/2-cellsize-placement(5)))/cellsize))))
 
         rowvariable=true;
     end
@@ -60,7 +60,7 @@ while fogrow<length(allrow)
     numberofextracubes = abs(ceil(density*(max(bounds) - min(bounds)))/cellsize); %add standard dev and av
     exclusionzone=[];
     if rowvariable
-        exclusionzone=cellsize*ceil((yfcent-n0/2+cellsize*2+placement(5):cellsize:yfcent+n0/2-cellsize-placement(5))/cellsize);
+        exclusionzone=cellsize*ceil((yfcent-n0/2+cellsize*2:cellsize:yfcent+n0/2-cellsize)/cellsize);
 
     end
     for i=1:numberofextracubes

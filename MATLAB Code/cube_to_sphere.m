@@ -1,6 +1,6 @@
 %module to convert all cubes to spheres for further obfuscation
 %receives the X,Y,Z coordinates of all the origins (centrepoint) of each cube
-function [faces, vertices] = cube_to_sphere(allDetectedOrigins)
+function [faces, vertices] = cube_to_sphere(allDetectedOrigins,cellsize)
 
 %split the coordinate data into three distinct columns
 x = allDetectedOrigins(:,1); %store all x values in a col
@@ -8,7 +8,7 @@ y = allDetectedOrigins(:,2); %store all y values in a col
 z = allDetectedOrigins(:,3); %store all z values in a col
 
 %determine the param for the spheres desired
-rad = 4; %radius of spheres in spherical QRcode
+rad = cellsize/2; %radius of spheres in spherical QRcode
 res = 12; %number of faces of spheres in spherical QRcode
 
 %count the number of spheres needed to be generated/the number of cubes

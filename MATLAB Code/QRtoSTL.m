@@ -10,16 +10,16 @@
 clear; clc;
 
 factor=0; applyfog=false;
-CorrectQR = 'QR code.png'; %input('Please input the filename of the Correct QR code =>','s');
+CorrectQR = 'CORRECT QR.png'; %input('Please input the filename of the Correct QR code =>','s');
 
 FalseQR = 'ONLYONE'; %input('Now input the filename of the False QR code =>','s');
 
 
-str = input('Add a Fog? Y/N: ','s');
+str = 'Y'%input('Add a Fog? Y/N: ','s');
 
 if strcmp(str,'Y')
     applyfog=true;
-    str1 = input('Fog Size? 2 - 3 - 4 - 5: ');
+    str1 = 2%input('Fog Size? 2 - 3 - 4 - 5: ');
     factor = str1;
 end
 
@@ -43,7 +43,7 @@ str2 = input('Do you want Spherical parts Y/N: ','s');
 
 if strcmp(str2,'Y')
     disp('Converting to Spheres...')
-    [faces, vertices]=cube_to_sphere(allDetectedOrigins);
+    [faces, vertices]=cube_to_sphere(allDetectedOrigins,cellsize);
     
     stlfilename = strcat('QRstl-',CorrectQR(1:end-4),'-',FalseQR(1:end-4),'.stl'); %create a unique filename / (1:end-4) removes the .png or .jpg from the strings
     disp('Generating STL...')

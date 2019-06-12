@@ -1,4 +1,4 @@
-function [QRMTX,IdxVec,QSdim,rectangleADJ] = IdxSpacer_(filename)
+function [QRMTX,IdxVec,QSdim] = IdxSpacer_(filename)
 %this function creates qr code matrix of ones and zeros.
 %QR is binary matrix with each pixel representing an element, this is also
 %used to find the spacing between each row
@@ -146,7 +146,7 @@ end
 
 IdxVec(recPos) = IdxVec(recPos) - 1; % rectangle cells are removed
 % IdxVec inticates the number of cell (length(IdxVec)) and the cell length
-if size(QRMTX,1)~=hgt
-    rectangleADJ = hgt-size(QRMTX,1)-cellsize
+if size(QRMTX,1)~=m
+    rectangleADJ = m-size(QRMTX,1)
 end
 end

@@ -3,11 +3,12 @@ function [ARRAY,cellsize,allDetectedOrigins,placement] = singleEmbeddedCode_(fil
 
 count=0;
 
-[QRMTX,IdxVec,QSdim] = IdxSpacer_(filename);
-[m,~] = size(QRMTX);
+[QRMTX,IdxVec,QSdim,rectangleADJ] = IdxSpacer_(filename);
+[m,~] = size(QRMTX)
 
 if factor
 [placement] = CodePlacement_(filename,IdxVec,factor);
+placement(5)=rectangleADJ
 ARRAY = zeros(m,m,placement(3));
 end
 
@@ -73,8 +74,11 @@ if factor
 allDetectedOrigins(:,1) = allDetectedOrigins(:,1)+placement(1)-m/2;
 allDetectedOrigins(:,2) = allDetectedOrigins(:,2)+placement(2)-m/2;
 allDetectedOrigins(:,3) = allDetectedOrigins(:,3)-cellsize/2;
+size(ARRAY,1)
+
 else
     placement=0;
 end
+
 end
 
