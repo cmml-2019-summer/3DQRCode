@@ -1,13 +1,18 @@
 
-function [ARRAY,placement,cellsize,allDetectedOrigins] = singleEmbeddedCode_(filename,factor)
+function [ARRAY,cellsize,allDetectedOrigins,placement] = singleEmbeddedCode_(filename,factor)
 
 count=0;
 
 [QRMTX,IdxVec,QSdim] = IdxSpacer_(filename);
+[m,~] = size(QRMTX);
+
+if factor
 [placement] = CodePlacement_(filename,IdxVec,factor);
+ARRAY = zeros(m,m,placement(3));
+end
 
 [m,~] = size(QRMTX);
-ARRAY = zeros(m,m,placement(3)); % ARRAY's size is based on the pixel dimension of the qr image]
+ARRAY = zeros(m,m,m); % ARRAY's size is based on the pixel dimension of the qr image]
 numberofcols = length(IdxVec); % refeeres to the number of columns and rows in qr code
 cellsize = IdxVec(1);
 ZPOSMTX = nan(numberofcols,numberofcols); % stores the z coordinate of the bottom of each cell cube in same row/col that the cell cube is stored
@@ -31,6 +36,7 @@ while row <= numberofcols % going through all rows checking for cells
         if QRMTX(posVec(row),posVec(col)) % if this logical is true then a cell is detected at that row/col
             allDetectedOrigins = [allDetectedOrigins ; posVec(row)+posVec(1)/2 posVec(col)+posVec(1)/2];
             if row > 1 % the first row is always empty (Quiet Space)
+                
                 if factor
                 ZposRange = [1 -placement(3) ((placement(1)+posVec(row)-m/2-placement(3)/2)^2+(placement(2)+posVec(col)-m/2-placement(3)/2)^2)];
                 ZposBounds = cellsize*ceil(roots(ZposRange)/cellsize);%(ceil(adjustment2-radius)):cellsize:(floor(adjustment2));
@@ -61,11 +67,14 @@ while row <= numberofcols % going through all rows checking for cells
     row = row + 1;% next row
     
 end
-
-
 allDetectedOrigins = [allDetectedOrigins validZPos];
+
+if factor
 allDetectedOrigins(:,1) = allDetectedOrigins(:,1)+placement(1)-m/2;
 allDetectedOrigins(:,2) = allDetectedOrigins(:,2)+placement(2)-m/2;
 allDetectedOrigins(:,3) = allDetectedOrigins(:,3)-cellsize/2;
+else
+    placement=0;
 end
-%maxzpos = m - max(IdxVec) - 2*QSdim*min(IdxVec); % this can be used to
+end
+
