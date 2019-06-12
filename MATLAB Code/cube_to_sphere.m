@@ -34,8 +34,8 @@ v = size(fv(1).vertices);
 v = v(:,1);
 
 %initialize an array to store face/vertex data
-faces =[];
-vertices = [];
+faces ={};
+vertices = {};
 
 %iteratre through and generate a face/vertex set 
 
@@ -45,6 +45,9 @@ for i = 1:s
     vertices = vertcat(vertices, fv(i).vertices);
     faces = vertcat(faces, fv(i).faces + v*(i-1));
 end
+
+vertices = cell2mat(vertices);
+faces = cell2mat(faces);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LEGACY %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
