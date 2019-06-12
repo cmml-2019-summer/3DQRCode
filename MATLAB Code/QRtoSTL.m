@@ -50,6 +50,7 @@ if strcmp(str2,'Y')
     stlwrite(stlfilename,faces,vertices);%downloaded function which triangulates the data
 else
     disp('Generating STL...')
+    fv = isosurface(~ ARRAY, 0);
     stlfilename = strcat('QRstl-',CorrectQR(1:end-4),'-',FalseQR(1:end-4),'.stl');
     stlwrite(stlfilename,faces,vertices)
 end%downloaded function which triangulates the data
