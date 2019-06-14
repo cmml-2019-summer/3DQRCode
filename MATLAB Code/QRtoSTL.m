@@ -38,12 +38,12 @@ if applyfog
 end
 
 
-str2 = input('Do you want Spherical parts Y/N: ','s');
+str2 = 'Y'; %input('Do you want Spherical parts Y/N: ','s');
 
 
 if strcmp(str2,'Y')
     disp('Converting to Spheres...')
-    [faces, vertices]=cube_to_sphere(allDetectedOrigins,cellsize);
+    [faces, vertices]=cube2sphere_(allDetectedOrigins,cellsize);
     
     stlfilename = strcat('QRstl-',CorrectQR(1:end-4),'-',FalseQR(1:end-4),'.stl'); %create a unique filename / (1:end-4) removes the .png or .jpg from the strings
     disp('Generating STL...')

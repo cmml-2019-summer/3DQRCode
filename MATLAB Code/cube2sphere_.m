@@ -1,6 +1,13 @@
 %module to convert all cubes to spheres for further obfuscation
+%disallowing for obvious faces where code can be read
 %receives the X,Y,Z coordinates of all the origins (centrepoint) of each cube
-function [faces, vertices] = cube_to_sphere(allDetectedOrigins,cellsize)
+
+%   by Nishant Suresh Aswani @niniack
+%   Acknowledgement: Michael Linares @michaellinares
+%   Copyright, Composite Materials and Mechanics Laboratory NYU Tandon 2019
+
+
+function [faces, vertices] = cube2sphere_(allDetectedOrigins,cellsize)
 
 %split the coordinate data into three distinct columns
 x = allDetectedOrigins(:,1); %store all x values in a col
@@ -24,6 +31,8 @@ for i = 1:s
     fv(i) = surf2patch(rad*sx + x(i),rad*sy + y(i),rad*sz + z(i), 'triangles');
 end
 
+
+
 %remove unwanted vars
 trash = {'sx','sy','sz','allDetectedOrigins','rad','res','x','y','z','i'};
 clear(trash{:})
@@ -32,6 +41,15 @@ clear trash
 %determine the number of vertices 
 v = size(fv(1).vertices);
 v = v(:,1);
+
+%trial for rotation matrix
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+i=5;
+rotMat = [1,0,0;0,cos(i*rand(1)),sin(i*rand(1));0,-sin(i*rand(1)),cos(i*rand(1))];
+vert = fv(1).vertices;
+vertRot = fv(1).vertices*rotMat;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 %initialize an array to store face/vertex data
 faces ={};
@@ -42,6 +60,7 @@ vertices = {};
 %the faces have a constant added to them so as to prevent the formation of
 %one structure
 for i = 1:s
+    rotMat = [1,0,0;0,cos(i*rand(1)),sin(i*rand(1));0,-sin(i*rand(1)),cos(i*rand(1))];
     vertices = vertcat(vertices, fv(i).vertices);
     faces = vertcat(faces, fv(i).faces + v*(i-1));
 end
