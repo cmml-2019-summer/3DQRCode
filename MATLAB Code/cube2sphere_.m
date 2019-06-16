@@ -31,10 +31,8 @@ for i = 1:s
     fv(i) = surf2patch(rad*sx + x(i),rad*sy + y(i),rad*sz + z(i), 'triangles');
 end
 
-
-
 %remove unwanted vars
-trash = {'sx','sy','sz','allDetectedOrigins','rad','res','x','y','z','i'};
+trash = {'sx','sy','sz','rad','res','x','y','z','i'};
 clear(trash{:})
 clear trash
 
@@ -42,31 +40,24 @@ clear trash
 v = size(fv(1).vertices);
 v = v(:,1);
 
-%trial for rotation matrix
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-i=5;
-rotMat = [1,0,0;0,cos(i*rand(1)),sin(i*rand(1));0,-sin(i*rand(1)),cos(i*rand(1))];
-vert = fv(1).vertices;
-vertRot = fv(1).vertices*rotMat;
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
 %initialize an array to store face/vertex data
 faces ={};
 vertices = {};
+
 
 %iteratre through and generate a face/vertex set 
 
 %the faces have a constant added to them so as to prevent the formation of
 %one structure
 for i = 1:s
-    rotMat = [1,0,0;0,cos(i*rand(1)),sin(i*rand(1));0,-sin(i*rand(1)),cos(i*rand(1))];
-    vertices = vertcat(vertices, fv(i).vertices);
+    [rotVertices]=threedRotate_(fv(i).vertices,allDetectedOrigins(i,:));
+    vertices = vertcat(vertices, rotVertices);
     faces = vertcat(faces, fv(i).faces + v*(i-1));
 end
 
 vertices = cell2mat(vertices);
 faces = cell2mat(faces);
+end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LEGACY %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

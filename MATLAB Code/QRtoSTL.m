@@ -15,7 +15,7 @@ CorrectQR = 'CORRECT QR.png'; %input('Please input the filename of the Correct Q
 FalseQR = 'ONLYONE'; %input('Now input the filename of the False QR code =>','s');
 
 
-str = 'Y'%input('Add a Fog? Y/N: ','s');
+str = 'Y';%input('Add a Fog? Y/N: ','s');
 
 if strcmp(str,'Y')
     applyfog=true;
