@@ -16,7 +16,7 @@ z = allDetectedOrigins(:,3); %store all z values in a col
 
 %determine the param for the spheres desired
 rad = cellsize/2; %radius of spheres in spherical QRcode
-res = 12; %number of faces of spheres in spherical QRcode
+res = 6; %number of faces of spheres in spherical QRcode
 
 %count the number of spheres needed to be generated/the number of cubes
 s = size(allDetectedOrigins); %the number of spheres

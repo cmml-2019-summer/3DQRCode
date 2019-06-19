@@ -8,7 +8,7 @@ count=0;
 
 if factor
 [placement] = CodePlacement_(filename,IdxVec,factor);
-placement(5)=rectangleADJ
+placement(5)=rectangleADJ;
 ARRAY = zeros(m,m,placement(3));
 end
 

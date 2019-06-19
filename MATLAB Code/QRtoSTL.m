@@ -10,36 +10,42 @@
 clear; clc;
 
 factor=0; applyfog=false;
-CorrectQR = 'CORRECT QR.png'; %input('Please input the filename of the Correct QR code =>','s');
+CorrectQR = 'Embedded Code.png'; %input('Please input the filename of the Correct QR code =>','s');
 
-FalseQR = 'ONLYONE'; %input('Now input the filename of the False QR code =>','s');
+FalseQR = 'ONLY ONE'; %input('Now input the filename of the False QR code =>','s');
 
 
-str = 'Y';%input('Add a Fog? Y/N: ','s');
+str = input('Add a Fog? Y/N: ','s');
 
 if strcmp(str,'Y')
     applyfog=true;
-    str1 = 3 %input('Fog Size? 2 - 3 - 4 - 5: ');
+    str1 = 4; %input('Fog Size? 2 - 3 - 4 - 5: ');
     factor = str1;
 end
 
-if strcmp(FalseQR,'ONLYONE') %check to see if there are one or two qr codes
+%if strcmp(FalseQR,'ONLYONE') %check to see if there are one or two qr codes
     
     [ARRAY,cellsize,allDetectedOrigins,placement]=singleEmbeddedCode_(CorrectQR,factor);
     
-else
-    [ARRAY]=doubleEmbeddedCode_(CorrectQR,FalseQR);
-end
+%else
+  %  [ARRAY]=doubleEmbeddedCode_(CorrectQR,FalseQR);
+%end
 
 if applyfog
+    
+    if ~strcmp(FalseQR,'ONLYONE')
+        disp('Adding Second Code...')
+        [ARRAY] = SecondEmbeddedCode_(ARRAY,FalseQR,allDetectedOrigins,placement,factor);
+    end
     disp('Generating Fog...')
+    
     [ARRAY,allDetectedOrigins]=FOGgenerator_(ARRAY,cellsize,placement,allDetectedOrigins);
     
 end
 
 
-str2 = 'Y'; %input('Do you want Spherical parts Y/N: ','s');
-
+str2 = input('Do you want Spherical parts Y/N: ','s');
+allDetectedOrigins
 
 if strcmp(str2,'Y')
     disp('Converting to Spheres...')

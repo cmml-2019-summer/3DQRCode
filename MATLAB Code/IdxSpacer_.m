@@ -146,7 +146,8 @@ end
 
 IdxVec(recPos) = IdxVec(recPos) - 1; % rectangle cells are removed
 % IdxVec inticates the number of cell (length(IdxVec)) and the cell length
+rectangleADJ=0;
 if size(QRMTX,1)~=hgt
-    rectangleADJ = hgt-size(QRMTX,1)-cellsize
+    rectangleADJ = hgt-size(QRMTX,1)-cellsize;
 end
 end
